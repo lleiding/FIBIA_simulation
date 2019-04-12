@@ -51,7 +51,7 @@ getk = function(areas, method = "SAR") {
     } else if (method == "habitats") {
         k = areas^(3/2) # k ~ volume of islands
     } else if (method == "mass") {
-        k = areas*2 # how much mass an island can carry
+        k = areas # how much mass an island can carry
     }
     k
 }
