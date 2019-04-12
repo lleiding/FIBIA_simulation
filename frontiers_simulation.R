@@ -131,7 +131,7 @@ speciate = function(patches, species, rate) {
                 traits <- species[s, ]
                 newvalues <- rnorm(2, 0, 0.8)
                 traits[c(1, 3)] <- traits[c(1, 3)] + newvalues #for body size and beak add random noise
-                traits[2] <- traits[2] - (traits[2] * rnorm(1, 0, 0.1))#for dispersal - reduce ##LL: too much assumption?
+                traits[2] <- traits[2] + (traits[2] * rnorm(1, 0, 0.1))#for dispersal - reduce ##LL: too much assumption?
                 ##ensure no traits are negative or 0 values
                 while (any(traits <= 0)) {
                     newvalues <- rnorm(2, 0, 0.8)
