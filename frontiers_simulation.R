@@ -107,7 +107,7 @@ colonise = function(patches, species, areas, method = "mass") {
     for(a in 1:length(areas)) {
         remaining = getk(areas[a], method)
         while(remaining > 0) {
-            if(length(patches[[a]]) == 0) {
+            if(length(patches[[a]]) == 0 | method == "mass") {
                 s = sample(1:nrow(species), 1)
             } else {
                 s = sample((1:nrow(species))[-patches[[a]]], 1)
