@@ -184,7 +184,7 @@ disperse = function(patches, species = NULL) {
 
 Leo <- function(plot_T = FALSE, th = 0.5, nam = "Fig_1.jpeg", verb = FALSE){
     
-    species <- matrix(nrow = 200, ncol = 3)
+    species <- matrix(nrow = 100, ncol = 3)
     colnames(species) <- c("BS", "D", "Beak")
     rownames(species) = 1:nrow(species)
     
@@ -194,7 +194,7 @@ Leo <- function(plot_T = FALSE, th = 0.5, nam = "Fig_1.jpeg", verb = FALSE){
 
     ##create islands
     isl <- vector("list", length = 5)#list to put island species in
-    ar <- c(0.1, 2, 4, 10, 50)#island areas
+    ar <- c(1, 20, 40, 100, 500)#island areas
 
     ## metacommunity dynamics:
     isl = colonise(isl, species, ar)
