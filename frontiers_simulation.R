@@ -73,7 +73,7 @@ getdistances = function(species) {
 
 compete = function(patches, species, areas) {
     k = getk(areas, "mass")
-    popmasses = getpopmass(species[, 'BS'])
+    popmasses = getpopmass(species[,1])
     for (p in 1:length(patches)) {
         if (length(patches[[p]]) > 1) {
             dists = getdistances(species[patches[[p]],])
@@ -114,7 +114,7 @@ colonise = function(patches, species, areas, method = "mass") {
             }                
             patches[[a]] = c(patches[[a]], s)
             if (method == "mass") {
-                popsize = getpopmass(species[s, 'BS'])
+                popsize = getpopmass(species[s, 1])
             } else {
                 popsize = 1
             }
@@ -153,9 +153,9 @@ disperse = function(patches, species = NULL) {
         for (p in 1:length(patches)) {
             s = 1
             while (s <= length(patches[[p]])) {
-                if (runif(1) <= species[patches[[p]][s], 'D']) {
+                if (runif(1) <= species[patches[[p]][s], 2]) {
                     target <- sample(1:length(patches), 1) # picking origin == failed dispersal
-                    patches[[target]] = c(patches[[target]], s)
+                    patches[[target]] = c(patches[[target]], patches[[p]][s])
                 }
                 s = s + 1
             }
@@ -183,7 +183,7 @@ disperse = function(patches, species = NULL) {
 ##verb = print informatino from the various functions run inside Leo
 
 Leo <- function(plot_T = FALSE, th = 0.5, nam = "Fig_1.jpeg", verb = FALSE){
-    
+    ## set.seed(1) # fix the random seed for testing purposes 
     species <- matrix(nrow = 100, ncol = 3)
     colnames(species) <- c("BS", "D", "Beak")
     rownames(species) = 1:nrow(species)
@@ -191,7 +191,7 @@ Leo <- function(plot_T = FALSE, th = 0.5, nam = "Fig_1.jpeg", verb = FALSE){
     species[, 1] <- rgamma(nrow(species), 1)#body size
     species[, 2] <- rbeta(nrow(species), 0.9, 1.4)#dispersal
     species[, 3] <- runif(nrow(species), 1, 8)#beak shape
-
+    ## species = as.data.frame(species) # in some cases matrices behave unexpected - data frames as work-around?
     ##create islands
     isl <- vector("list", length = 5)#list to put island species in
     ar <- c(1, 20, 40, 100, 500)#island areas
@@ -203,7 +203,8 @@ Leo <- function(plot_T = FALSE, th = 0.5, nam = "Fig_1.jpeg", verb = FALSE){
     species = radiation[[2]]
     isl = disperse(isl, species)
     isl = compete(isl, species, ar)
-
+    ## plot(ar, sapply(isl, length)) # check SARs
+    
     ##create list with the full trait matrix for each island
     islFull <- lapply(isl, function(x) {
         if (length(species[x]) == ncol(species)) {
